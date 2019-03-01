@@ -1,0 +1,341 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /Users/guofan.xu/Github/gget
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 160
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 36
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 75
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 500
+    content: "\e[?1034hguofan.xu$ "
+  - delay: 500
+    content: .
+  - delay: 100
+    content: /gget
+  - delay: 100
+    content: ' '
+  - delay: 100
+    content: '-r'
+  - delay: 100
+    content: ' '
+  - delay: 200
+    content: "fatedier/frp"
+  - delay: 100
+    content: "\r\n"
+  - delay: 200
+    content: "2019/03/01 17:06:32 Latest release: v0.24.1 \r\nNote:\r\n### Fix\r\r\n- Error clear frpc configure file when /api/config called without token set.\r\n\r\nThere is more than one artifact match\r\nName                                    Size        \tUrl\r\nfrp_0.24.1_darwin_amd64.tar.gz          7838179     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_darwin_amd64.tar.gz\r\nfrp_0.24.1_freebsd_386.tar.gz           7002114     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_freebsd_386.tar.gz\r\nfrp_0.24.1_freebsd_amd64.tar.gz         7435696     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_freebsd_amd64.tar.gz\r\nfrp_0.24.1_linux_386.tar.gz             7012626     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_386.tar.gz\r\nfrp_0.24.1_linux_amd64.tar.gz           7432259     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_amd64.tar.gz\r\nfrp_0.24.1_linux_arm.tar.gz             6890399     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_arm.tar.gz\r\nfrp_0.24.1_linux_arm64.tar.gz           6773811     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_arm64.tar.gz\r\nfrp_0.24.1_linux_mips.tar.gz            6665811     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_mips.tar.gz\r\nfrp_0.24.1_linux_mips64.tar.gz          6700681     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_mips64.tar.gz\r\nfrp_0.24.1_linux_mips64le.tar.gz        6576818     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_mips64le.tar.gz\r\nfrp_0.24.1_linux_mipsle.tar.gz          6587480     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_linux_mipsle.tar.gz\r\nfrp_0.24.1_windows_386.zip              6889833     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_windows_386.zip\r\nfrp_0.24.1_windows_amd64.zip            7321980     \thttps://github.com/fatedier/frp/releases/download/v0.24.1/frp_0.24.1_windows_amd64.zip\r\nguofan.xu$ "
+  - delay: 500
+    content: ./gget -r fatedier/frp
+  - delay: 100
+    content: ' '
+  - delay: 200
+    content: '-n'
+  - delay: 100
+    content: ' '
+  - delay: 200
+    content: linux
+  - delay: 100
+    content: _
+  - delay: 100
+    content: amd64
+  - delay: 100
+    content: "\r\n"
+  - delay: 300
+    content: "2019/03/01 17:06:40 Latest release: v0.24.1 \r\nNote:\r\n### Fix\r\r\n- Error clear frpc configure file when /api/config called without token set.\r\n\r\n\r\n\r"
+  - delay: 200
+    content: " \r[>                                                                                                    ] 0.23% (16960/7432259)"
+  - delay: 200
+    content: " \r[>                                                                                                    ] 0.46% (34368/7432259)"
+  - delay: 200
+    content: " \r[=>                                                                                                   ] 1.15% (85544/7432259)"
+  - delay: 100
+    content: " \r[=>                                                                                                   ] 1.40% (104000/7432259)"
+  - delay: 100
+    content: " \r[==>                                                                                                  ] 2.10% (156224/7432259)"
+  - delay: 100
+    content: " \r[===>                                                                                                 ] 3.51% (260672/7432259)"
+  - delay: 100
+    content: " \r[====>                                                                                                ] 4.44% (330304/7432259)"
+  - delay: 100
+    content: " \r[=====>                                                                                               ] 5.38% (399936/7432259)"
+  - delay: 100
+    content: " \r[======>                                                                                              ] 6.32% (469568/7432259)"
+  - delay: 100
+    content: " \r[=======>                                                                                             ] 7.02% (521792/7432259)"
+  - delay: 100
+    content: " \r[========>                                                                                            ] 8.43% (626240/7432259)"
+  - delay: 100
+    content: " \r[=========>                                                                                           ] 9.13% (678464/7432259)"
+  - delay: 100
+    content: " \r[==========>                                                                                          ] 10.75% (799272/7432259)"
+  - delay: 100
+    content: " \r[===========>                                                                                         ] 11.94% (887360/7432259)"
+  - delay: 100
+    content: " \r[=============>                                                                                       ] 13.11% (974400/7432259)"
+  - delay: 100
+    content: " \r[==============>                                                                                      ] 14.28% (1061440/7432259)"
+  - delay: 100
+    content: " \r[===============>                                                                                     ] 15.92% (1183296/7432259)"
+  - delay: 100
+    content: " \r[=================>                                                                                   ] 17.79% (1322560/7432259)"
+  - delay: 100
+    content: " \r[==================>                                                                                  ] 18.73% (1392192/7432259)"
+  - delay: 100
+    content: " \r[===================>                                                                                 ] 19.67% (1461824/7432259)"
+  - delay: 100
+    content: " \r[====================>                                                                                ] 20.37% (1514048/7432259)"
+  - delay: 100
+    content: " \r[=====================>                                                                               ] 21.31% (1583680/7432259)"
+  - delay: 100
+    content: " \r[======================>                                                                              ] 22.25% (1653312/7432259)"
+  - delay: 100
+    content: " \r[=======================>                                                                             ] 23.88% (1775168/7432259)"
+  - delay: 100
+    content: " \r[========================>                                                                            ] 24.59% (1827392/7432259)"
+  - delay: 100
+    content: " \r[=========================>                                                                           ] 25.52% (1897024/7432259)"
+  - delay: 100
+    content: " \r[==========================>                                                                          ] 26.23% (1949248/7432259)"
+  - delay: 100
+    content: " \r[===========================>                                                                         ] 27.16% (2018880/7432259)"
+  - delay: 100
+    content: " \r[============================>                                                                        ] 28.80% (2140736/7432259)"
+  - delay: 100
+    content: " \r[=============================>                                                                       ] 29.74% (2210368/7432259)"
+  - delay: 100
+    content: " \r[==============================>                                                                      ] 30.66% (2278952/7432259)"
+  - delay: 100
+    content: " \r[===============================>                                                                     ] 31.61% (2349632/7432259)"
+  - delay: 100
+    content: " \r[================================>                                                                    ] 32.55% (2419264/7432259)"
+  - delay: 100
+    content: " \r[=================================>                                                                   ] 33.25% (2471488/7432259)"
+  - delay: 100
+    content: " \r[==================================>                                                                  ] 34.42% (2558528/7432259)"
+  - delay: 100
+    content: " \r[===================================>                                                                 ] 35.36% (2628160/7432259)"
+  - delay: 100
+    content: " \r[====================================>                                                                ] 36.77% (2732608/7432259)"
+  - delay: 100
+    content: " \r[======================================>                                                              ] 38.17% (2837056/7432259)"
+  - delay: 100
+    content: " \r[========================================>                                                            ] 40.05% (2976320/7432259)"
+  - delay: 100
+    content: " \r[=========================================>                                                           ] 41.69% (3098176/7432259)"
+  - delay: 100
+    content: " \r[==========================================>                                                          ] 42.86% (3185216/7432259)"
+  - delay: 100
+    content: " \r[===========================================>                                                         ] 43.09% (3202624/7432259)"
+  - delay: 100
+    content: " \r[============================================>                                                        ] 44.26% (3289664/7432259)"
+  - delay: 100
+    content: " \r[=============================================>                                                       ] 45.43% (3376704/7432259)"
+  - delay: 100
+    content: " \r[==============================================>                                                      ] 46.36% (3445288/7432259)"
+  - delay: 100
+    content: " \r[===============================================>                                                     ] 47.54% (3533376/7432259)"
+  - delay: 100
+    content: " \r[================================================>                                                    ] 48.01% (3568192/7432259)"
+  - delay: 100
+    content: " \r[=================================================>                                                   ] 49.41% (3672640/7432259)"
+  - delay: 100
+    content: " \r[==================================================>                                                  ] 50.35% (3742272/7432259)"
+  - delay: 100
+    content: " \r[===================================================>                                                 ] 51.29% (3811904/7432259)"
+  - delay: 100
+    content: " \r[====================================================>                                                ] 52.46% (3898944/7432259)"
+  - delay: 100
+    content: " \r[=====================================================>                                               ] 53.16% (3951168/7432259)"
+  - delay: 100
+    content: " \r[======================================================>                                              ] 54.10% (4020800/7432259)"
+  - delay: 100
+    content: " \r[=======================================================>                                             ] 55.27% (4107840/7432259)"
+  - delay: 100
+    content: " \r[========================================================>                                            ] 56.21% (4177472/7432259)"
+  - delay: 100
+    content: " \r[=========================================================>                                           ] 57.61% (4281920/7432259)"
+  - delay: 100
+    content: " \r[==========================================================>                                          ] 58.32% (4334144/7432259)"
+  - delay: 100
+    content: " \r[===========================================================>                                         ] 59.25% (4403776/7432259)"
+  - delay: 100
+    content: " \r[============================================================>                                        ] 60.19% (4473408/7432259)"
+  - delay: 100
+    content: " \r[=============================================================>                                       ] 61.36% (4560448/7432259)"
+  - delay: 100
+    content: " \r[==============================================================>                                      ] 62.53% (4647488/7432259)"
+  - delay: 100
+    content: " \r[===============================================================>                                     ] 63.23% (4699712/7432259)"
+  - delay: 100
+    content: " \r[================================================================>                                    ] 64.17% (4769344/7432259)"
+  - delay: 100
+    content: " \r[=================================================================>                                   ] 65.33% (4855336/7432259)"
+  - delay: 100
+    content: " \r[==================================================================>                                  ] 66.04% (4908608/7432259)"
+  - delay: 100
+    content: " \r[===================================================================>                                 ] 67.44% (5012008/7432259)"
+  - delay: 100
+    content: " \r[====================================================================>                                ] 68.39% (5082688/7432259)"
+  - delay: 100
+    content: " \r[=====================================================================>                               ] 69.09% (5134912/7432259)"
+  - delay: 100
+    content: " \r[======================================================================>                              ] 70.73% (5256768/7432259)"
+  - delay: 100
+    content: " \r[========================================================================>                            ] 72.13% (5361216/7432259)"
+  - delay: 100
+    content: " \r[==========================================================================>                          ] 74.24% (5517888/7432259)"
+  - delay: 100
+    content: " \r[===========================================================================>                         ] 75.65% (5622336/7432259)"
+  - delay: 100
+    content: " \r[============================================================================>                        ] 76.82% (5709376/7432259)"
+  - delay: 100
+    content: " \r[=============================================================================>                       ] 77.99% (5796416/7432259)"
+  - delay: 100
+    content: " \r[==============================================================================>                      ] 78.69% (5848640/7432259)"
+  - delay: 100
+    content: " \r[===============================================================================>                     ] 79.40% (5900864/7432259)"
+  - delay: 100
+    content: " \r[================================================================================>                    ] 80.33% (5970496/7432259)"
+  - delay: 100
+    content: " \r[=================================================================================>                   ] 81.72% (6073896/7432259)"
+  - delay: 100
+    content: " \r[==================================================================================>                  ] 82.21% (6109760/7432259)"
+  - delay: 100
+    content: " \r[===================================================================================>                 ] 83.14% (6179392/7432259)"
+  - delay: 100
+    content: " \r[====================================================================================>                ] 84.08% (6249024/7432259)"
+  - delay: 100
+    content: " \r[=====================================================================================>               ] 85.25% (6336064/7432259)"
+  - delay: 100
+    content: " \r[======================================================================================>              ] 86.19% (6405696/7432259)"
+  - delay: 100
+    content: " \r[=======================================================================================>             ] 87.12% (6475328/7432259)"
+  - delay: 100
+    content: " \r[========================================================================================>            ] 88.30% (6562368/7432259)"
+  - delay: 100
+    content: " \r[=========================================================================================>           ] 89.47% (6649408/7432259)"
+  - delay: 100
+    content: " \r[==========================================================================================>          ] 90.40% (6719040/7432259)"
+  - delay: 100
+    content: " \r[===========================================================================================>         ] 91.34% (6788672/7432259)"
+  - delay: 100
+    content: " \r[============================================================================================>        ] 92.04% (6840896/7432259)"
+  - delay: 100
+    content: " \r[=============================================================================================>       ] 93.68% (6962752/7432259)"
+  - delay: 100
+    content: " \r[==============================================================================================>      ] 94.39% (7014976/7432259)"
+  - delay: 100
+    content: " \r[================================================================================================>    ] 96.26% (7154240/7432259)"
+  - delay: 100
+    content: " \r[==================================================================================================>  ] 98.37% (7310912/7432259)"
+  - delay: 100
+    content: " \r[===================================================================================================> ] 99.76% (7414312/7432259)"
+  - delay: 100
+    content: " \r[====================================================================================================>] 100.00% (7432259/7432259)\r\nDownload complete\r\nguofan.xu$ "
+  - delay: 500
+    content: "logout\r\n"
