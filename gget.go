@@ -29,13 +29,6 @@ type releases struct {
 	Assets  []asset `json:"assets"`
 }
 
-func Map(vs []string, f func(string) string) []string {
-	vsm := make([]string, len(vs))
-	for i, v := range vs {
-		vsm[i] = f(v)
-	}
-	return vsm
-}
 func DownloadFile(filepath string, url string, threads int) {
 	defer timeTrack(time.Now(), "download")
 	// Get the data
