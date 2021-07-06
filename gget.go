@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"gget/progress"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -34,89 +36,68 @@ func Map(vs []string, f func(string) string) []string {
 	}
 	return vsm
 }
-
-type Progbar struct {
-	total int
-}
-
-func (p *Progbar) PrintProg(portion int) {
-	bars := p.calcBars(portion) //算长度
-	spaces := maxbars - bars - 1
-	percent := 100 * (float32(portion) / float32(p.total))
-	builder := strings.Builder{}
-	for i := 0; i < bars; i++ {
-		builder.WriteRune('=')
-	}
-	builder.WriteRune('>')
-	for i := 0; i <= spaces; i++ {
-		builder.WriteRune(' ')
-	}
-	//fmt.Sprintf()
-	fmt.Printf(" \r[%s] %3.2f%% (%d/%d)", builder.String(), percent, portion, p.total)
-}
-
-func (p *Progbar) PrintComplete() {
-	p.PrintProg(p.total)
-	fmt.Print("\n")
-}
-
-func (p *Progbar) calcBars(portion int) int {
-	if portion == 0 {
-		return portion
-	}
-	return int(float32(maxbars) / (float32(p.total) / float32(portion)))
-}
-
-func DownloadFile(filepath string, url string) {
+func DownloadFile(filepath string, url string, threads int) {
+	defer timeTrack(time.Now(), "download")
 	// Get the data
-	resp, err := http.Get(url)
+	resp, err := http.Head(url)
 	check(err)
-	defer resp.Body.Close()
 	// Create the file
 	out, err := os.Create(filepath)
 	check(err)
 	defer out.Close()
 	size := resp.ContentLength //获取文件长度
-	bar := &Progbar{total: int(size)}
-	written := make(chan int, 500)
-	go func() {
-		copied := 0
-		c := 0
-		tick := time.Tick(interval) //定时发送tick tock
-		for {
-			select {
-			case c = <-written: //如果收到已写入的数据，就加到copied去
-				copied += c
-			case <-tick:
-				bar.PrintProg(copied) //如果收到tick tock，就打印状态
-			}
+	_ = resp.Body.Close()
+	//log.Printf("%+v\n", resp.Header)
+	bar := &progress.Progressbar{Total: int(size)}
+	bar.Run()
+	defer bar.Print()
+	wg := sync.WaitGroup{}
+	wg.Add(threads)
+	var mu sync.Mutex
+	var skip = size / int64(threads)
+	for i := 1; i <= threads; i++ {
+		from := int64(i-1) * skip
+		var to int64 = 0
+		if i < threads {
+			to = from + skip - 1
+		} else {
+			to = size - 1
 		}
-	}()
-	buf := make([]byte, 32*1024) //32kb的buf
-	for {
-		rc, re := resp.Body.Read(buf)
-		if rc > 0 {
-			wc, we := out.Write(buf[0:rc])
-			check(we)
-			if wc != rc {
-				log.Fatal("Read and Write count mismatch")
+		go func() {
+			downResp, _ := http.DefaultClient.Do(&http.Request{
+				URL: resp.Request.URL,
+				Header: map[string][]string{
+					"Range": {fmt.Sprintf("bytes=%d-%d", from, to)},
+				},
+			})
+			defer downResp.Body.Close()
+			buf := make([]byte, 32*1024) //32kb的buf
+			var writeCount int64 = 0
+			for {
+				rc, re := downResp.Body.Read(buf)
+				if rc > 0 {
+					mu.Lock()
+					out.Seek(writeCount+from, 0)
+					wc, we := out.Write(buf[0:rc])
+					check(we)
+					writeCount += int64(wc)
+					mu.Unlock()
+					if wc != rc {
+						log.Fatal("Read and Write count mismatch")
+					}
+					if wc > 0 {
+						bar.Add(wc)
+					}
+				}
+				if re == io.EOF {
+					break
+				}
 			}
-			if wc > 0 {
-				written <- wc
-			}
-		}
-		if re == io.EOF {
-			break
-		}
+			wg.Done()
+		}()
 	}
-	bar.PrintComplete()
-	fmt.Println("Download complete")
+	wg.Wait()
 }
-
-const (
-	maxbars  int = 100
-	interval     = 500 * time.Millisecond
-)
 
 func check(err error) {
 	if err != nil {
@@ -124,11 +105,10 @@ func check(err error) {
 	}
 }
 
+var user = "Your Github Username"
+var token = "Your Token"
+
 func main() {
-
-	//DownloadFile("10mb.bin", "http://mirror.sg.leaseweb.net/speedtest/10mb.bin")
-	//return
-
 	var repo string
 	var match string
 	flag.StringVar(&repo, "r", "", "github repo to download")
@@ -136,7 +116,7 @@ func main() {
 	flag.Parse()
 	request, err := http.NewRequest("GET", "https://api.github.com/repos/"+repo+"/releases/latest", nil)
 	check(err)
-	request.SetBasicAuth("XGFan", "245d7b7432200011da900baa85fa389d2f8ab9a8")
+	request.SetBasicAuth(user, token)
 	resp, err := http.DefaultClient.Do(request)
 	check(err)
 	bytes, err := ioutil.ReadAll(resp.Body)
@@ -153,13 +133,15 @@ func main() {
 	if len(filter) > 1 {
 		fmt.Println("There is more than one artifact match")
 		PrintAssets(filter)
+		os.Exit(1)
 	} else if len(filter) == 0 {
 		fmt.Println("There is no artifact match")
 		PrintAssets(i.Assets)
+		os.Exit(1)
 	} else {
 		fmt.Print("\n\r")
 		//进入下载
-		DownloadFile(filter[0].Name, filter[0].DownloadUrl)
+		DownloadFile(filter[0].Name, filter[0].DownloadUrl, 4)
 	}
 }
 
@@ -168,4 +150,9 @@ func PrintAssets(assets []asset) {
 	for _, e := range assets {
 		fmt.Printf("%-40s%-12d\t%s\n", e.Name, e.Size, e.DownloadUrl)
 	}
+}
+
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	log.Printf("%s took %s", name, elapsed)
 }
