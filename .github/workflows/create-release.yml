@@ -17,9 +17,6 @@ jobs:
         id: go
 
       - name: Build
-        run: GOOS=linux GOARCH=amd64 go build -ldflags="-w -s"  -o ghproxy .
-
-      - name: Build
         run: |
           mkdir -p build
           env GOOS=windows GOARCH=amd64 go build -o ./build/gget-win.exe .
@@ -30,20 +27,20 @@ jobs:
       - name: Create Release Win
         uses: JasonEtco/upload-to-release@master
         with:
-          args: gget-win.exe application/octet-stream
+          args: build/gget-win.exe application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release Linux
         uses: JasonEtco/upload-to-release@master
         with:
-          args: gget-linux application/octet-stream
+          args: build/gget-linux application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release Mac
         uses: JasonEtco/upload-to-release@master
         with:
-          args: gget-mac application/octet-stream
+          args: build/gget-mac application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
