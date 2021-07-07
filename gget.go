@@ -29,10 +29,17 @@ type releases struct {
 	Assets  []asset `json:"assets"`
 }
 
+var client = http.Client{
+	Transport: &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		//TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	},
+}
+
 func DownloadFile(filepath string, url string, threads int) {
 	defer timeTrack(time.Now(), "download")
 	// Get the data
-	resp, err := http.Head(url)
+	resp, err := client.Head(url)
 	check(err)
 	// Create the file
 	out, err := os.Create(filepath)
@@ -57,7 +64,7 @@ func DownloadFile(filepath string, url string, threads int) {
 			to = size - 1
 		}
 		go func() {
-			downResp, _ := http.DefaultClient.Do(&http.Request{
+			downResp, _ := client.Do(&http.Request{
 				URL: resp.Request.URL,
 				Header: map[string][]string{
 					"Range": {fmt.Sprintf("bytes=%d-%d", from, to)},
@@ -107,10 +114,13 @@ func main() {
 	flag.StringVar(&repo, "r", "", "github repo to download")
 	flag.StringVar(&match, "n", "", "text use to filter")
 	flag.Parse()
+	if repo == "" {
+		log.Fatal("repo name is required\n")
+	}
 	request, err := http.NewRequest("GET", "https://api.github.com/repos/"+repo+"/releases/latest", nil)
 	check(err)
 	request.SetBasicAuth(user, token)
-	resp, err := http.DefaultClient.Do(request)
+	resp, err := client.Do(request)
 	check(err)
 	bytes, err := ioutil.ReadAll(resp.Body)
 	check(err)
@@ -124,13 +134,11 @@ func main() {
 		}
 	}
 	if len(filter) > 1 {
-		fmt.Println("There is more than one artifact match")
 		PrintAssets(filter)
-		os.Exit(1)
+		log.Fatal("There is more than one artifact match\n")
 	} else if len(filter) == 0 {
-		fmt.Println("There is no artifact match")
 		PrintAssets(i.Assets)
-		os.Exit(1)
+		log.Fatal("There is no artifact match\n")
 	} else {
 		fmt.Print("\n\r")
 		//进入下载
