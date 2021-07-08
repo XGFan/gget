@@ -30,10 +30,10 @@ type releases struct {
 }
 
 var client = http.Client{
-	Transport: &http.Transport{
-		Proxy: http.ProxyFromEnvironment,
-		//TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	},
+	//Transport: &http.Transport{
+	//	Proxy: http.ProxyFromEnvironment,
+	//	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	//},
 }
 
 func DownloadFile(filepath string, url string, threads int) {
